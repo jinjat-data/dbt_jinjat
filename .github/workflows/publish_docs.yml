@@ -1,0 +1,28 @@
+name: Deploy dbt docs to Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish_project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install dbt
+        run: sudo apt update && sudo apt install python3-pip && pip3 install --upgrade pip && pip3 install dbt-postgres
+
+      - name: Install dbt Dependencies
+        run: dbt deps --profiles-dir ./
+
+      - name: Generate dbt Docs
+        run: dbt docs generate --profiles-dir ./
+        
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target

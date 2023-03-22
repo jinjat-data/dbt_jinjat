@@ -1,0 +1,15 @@
+
+name: 'dbt_jinjat_tests'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_jinjat'
+analysis-paths: ["analyses"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+model-paths: ["models"]
+
+target-path: "target"  
+clean-targets:         
+  - "target"
+  - "dbt_packages"
