@@ -16,10 +16,10 @@ jobs:
         run: sudo apt update && sudo apt install python3-pip && pip3 install --upgrade pip && pip3 install dbt-postgres
 
       - name: Install dbt Dependencies
-        run: dbt deps --profiles-dir ./
+        run: dbt deps 
 
       - name: Generate dbt Docs
-        run: dbt docs generate --profiles-dir ./
+        run: dbt docs generate
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
