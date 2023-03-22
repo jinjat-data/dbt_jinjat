@@ -19,7 +19,7 @@ jobs:
         run: dbt deps 
 
       - name: Generate dbt Docs
-        run: dbt docs generate
+        run: dbt docs generate --profile-dir ./integration_tests --profile jaffle_shop 
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
