@@ -1,6 +1,6 @@
-# jinjat-dbt
+# jinjat-dbt ([dbt Docs](https://jinjat-data.github.io/dbt_jinjat/))
 
-Macros that are used by [Jinjat](https://jinjat.com) to operate.
+Macros that are used by [Jinjat](https://jinjat.com) to operate. 
 
 # Contents
 - [jinjat-dbt](#jinjat-dbt)
