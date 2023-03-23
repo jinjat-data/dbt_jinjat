@@ -1,4 +1,4 @@
-{% macro jinjat__template__crud_entrypoint(to, ) %}
+{% macro refine_app(ref) %}
     {% set read_only_operations = {
             "analyses/crud/_list_customers.sql": generate_jinjat__crud__analysis_list(to),
             "analyses/crud/_id/_get_customers.sql": generate_jinjat__crud__analysis_get(to),

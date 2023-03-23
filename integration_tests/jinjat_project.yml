@@ -1,6 +1,5 @@
 refine:
   package:
-    name: 'test'
     dependencies:
       "@mui/material": "^5.11.4"
   jsonforms:
