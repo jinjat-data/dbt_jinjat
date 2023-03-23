@@ -1,5 +1,7 @@
 {% macro request(req) %}
-    {% if execute %}
+    {% if not this %}
+        {{ exceptions.raise_compiler_error("request() macro is only available in your analyses") }}
+    {% elif execute %}
         {% set analyses_ref_node = graph.nodes.values() | selectattr('name', 'equalto', this.identifier) | first %}
         {% set jinjat = analyses_ref_node.config.jinjat %}
 
@@ -40,7 +42,7 @@
                                
                 {% do req.update({"body": example}) %}
             {% elif request_body.type %}
-                {% do req.update({"body": generate_sample_from_json_schema(request_body)}) %}
+                {% do req.update({"body": _generate_sample_from_json_schema(request_body)}) %}
             {% else %}
                 {% if jinjat.method in ['post', 'put', 'patch'] %}
                     {{ exceptions.raise_compiler_error(this.identifier ~ ": Unable to create an example value which is required for `" ~ jinjat.method ~ "` method") }}
@@ -55,7 +57,7 @@
 {% endmacro %}
 
 
-{% macro generate_sample_from_json_schema(json_schema) %}
+{% macro _generate_sample_from_json_schema(json_schema) %}
     {% if 'examples' in json_schema %}
         {{return(json_schema.examples[0])}}
     {% elif 'example' in json_schema %}
@@ -75,11 +77,11 @@
     {% elif json_schema.type == 'object' %}
         {% set example_object = {} %}
         {% for key, value in json_schema.properties.items() %}
-            {% do example_object.update({key: generate_sample_from_json_schema(value)}) %}
+            {% do example_object.update({key: _generate_sample_from_json_schema(value)}) %}
         {% endfor %}
         {{return(example_object)}}
     {% elif json_schema.type == 'array' %}
-        {{return([generate_sample_from_json_schema(json_schema.items)])}}
+        {{return([_generate_sample_from_json_schema(json_schema.items)])}}
     {% elif json_schema.type == 'boolean' %}
          {{return("TRUE")}}
     {% elif json_schema.type == 'number' %}

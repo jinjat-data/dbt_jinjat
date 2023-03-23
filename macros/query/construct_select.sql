@@ -1,5 +1,5 @@
 {% macro limit_query(sql, limit) -%}
-    {{ return(adapter.dispatch('limit_query')(sql, limit)) }}
+    {{ return(adapter.dispatch('limit_query', 'jinjat')(sql, limit)) }}
 {%- endmacro %}
 
 
@@ -13,9 +13,6 @@
 {%- endmacro %}
 
 
------
-
-
 {% macro generate_select(selects) -%}
     {% if selects is defined %}
     {% for select in selects %}
@@ -27,12 +24,10 @@
 {%- endmacro %}
 
 
-
------
-
 {% macro generate_where(filter) -%}
-    {{ return(adapter.dispatch('generate_where')(filter)) }}
+    {{ return(adapter.dispatch('generate_where', 'jinjat')(filter)) }}
 {%- endmacro %}
+
 
 {% macro default__generate_where(filter) -%}
         {% if not filter %}
@@ -51,7 +46,7 @@
                     {% if not loop.last %} OR {% endif %}
                 {% endfor %}
             {% elif 'field' in filter %}
-                {{ generate_single_filter(filter.field, filter.operator, filter.value) }}
+                {{ jinjat._generate_single_filter(filter.field, filter.operator, filter.value) }}
             {% else %}
                 {{ exceptions.raise_compiler_error("Unable to render filter, can't find any of `and`, `or`, `field` properties: " ~ filter) }}
             {% endif %}
@@ -59,7 +54,7 @@
 {%- endmacro %}
 
 
-{% macro generate_single_filter(field, operator, value) -%}
+{% macro _generate_single_filter(field, operator, value) -%}
     {%- set operator_map = {"equals": "=", "not_equals": "!="} %}
 
     {{field}} {{operator_map[operator]}} {{value}}

@@ -1,5 +1,5 @@
 {% macro quote_identifier(column_name) %}
-    {% set col_name = adapter.dispatch('quote_identifier')(column_name) %}
+    {% set col_name = adapter.dispatch('quote_identifier', 'jinjat')(column_name) %}
     {{ return(col_name) }}
 {% endmacro %}
 
@@ -9,7 +9,7 @@
 {% endmacro %}
 
 {% macro quote_literal_value(value) %}
-    {% set literal_value = adapter.dispatch('quote_literal_value')(value) %}
+    {% set literal_value = adapter.dispatch('quote_literal_value', 'jinjat')(value) %}
     {{ return(literal_value) }}
 {% endmacro %}
 
