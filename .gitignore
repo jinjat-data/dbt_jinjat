@@ -3,3 +3,5 @@ target/
 dbt_packages/
 logs/
 .DS_Store
+integration_tests/jaffle_shop.duckdb
+integration_tests/jaffle_shop.duckdb.wal
