@@ -1,0 +1,24 @@
+{    
+    "yaml.schemas": {
+        "https://json-schema.org/draft-07/schema": [
+            "static/schemas/**/*.yml"
+        ],
+        "../jsonschema/jinjat_yml_files.json": [
+            "jinjat_yml_files.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/dbt_yml_files.json": [
+            "models/**/*.yml",
+            "seeds/**/*.yml",
+            "macros/**/*.yml",
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/dbt_project.json": [
+            "dbt_project.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/selectors.json": [
+            "selectors.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/packages.json": [
+            "packages.yml"
+        ]
+    },
+}
