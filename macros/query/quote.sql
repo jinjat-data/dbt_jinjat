@@ -1,14 +1,14 @@
-{% macro quote_identifier(column_name) %}
-    {% set col_name = adapter.dispatch('quote_identifier', 'jinjat')(column_name) %}
+{% macro quote_identifier(value) %}
+    {% set col_name = adapter.dispatch('quote_identifier', 'jinjat')(value) %}
     {{ return(col_name) }}
 {% endmacro %}
 
-{% macro default__quote_identifier(column_name) %}
-    {% set quoted_col_name = '"' + column_name + '"' %}
-    {{ return(quoted_col_name) }}
+{% macro default__quote_identifier(identifier) %}
+    {% set quoted_identifier = '"' + identifier + '"' %}
+    {{ return(quoted_identifier) }}
 {% endmacro %}
 
-{% macro quote_literal_value(value) %}
+{% macro quote_literal(value) %}
     {% set literal_value = adapter.dispatch('quote_literal_value', 'jinjat')(value) %}
     {{ return(literal_value) }}
 {% endmacro %}

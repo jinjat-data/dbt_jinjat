@@ -1,0 +1,40 @@
+version: 2
+
+macros:
+  - name: generate_select
+    description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
+    docs:
+      show: true
+    arguments:
+      - name: selects
+        type: <array[string]>
+        description: An array of columns to quote, the default is `[*]`
+  - name: limit_query
+    description: This macro takes a SQL query as a parameter and applies LIMIT to it.
+    docs:
+      show: true
+    arguments:
+      - name: selects
+        type: <array[string]>
+        description: An array of columns to quote, the default is `[*]`
+  - name: generate_select
+    docs:
+      show: true
+    arguments:
+      - name: selects
+        type: <array[string]>
+        description: An array of columns to quote, the default is `[*]`
+  - name: quote_identifier
+    docs:
+      show: true
+    arguments:
+      - name: value
+        type: string
+        description: The identifier to quote. col1, table_ref, etc.
+  - name: quote_literal
+    docs:
+      show: true
+    arguments:
+      - name: value
+        type: string
+        description: The literal value to quote. myliteral, 4, etc.

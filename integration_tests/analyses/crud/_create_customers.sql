@@ -8,7 +8,7 @@ INSERT INTO
     {% endfor %})
 VALUES
     ({% for key, value in payload.items() %}
-        {{ jinjat.quote_literal_value(value) }}
+        {{ jinjat.quote_literal(value) }}
 
         {% if not loop.last %},{% endif %}
     {% endfor %})

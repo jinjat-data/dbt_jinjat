@@ -1,0 +1,19 @@
+version: 2
+
+macros:
+  - name: get_jinjat_config
+    description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
+    docs:
+      show: false
+    arguments:
+      - name: selects
+        type: <array[string]>
+        description: An array of columns to quote, the default is `[*]`
+  - name: request
+    description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
+    docs:
+      show: true
+    arguments:
+      - name: selects
+        type: <array[string]>
+        description: An array of columns to quote, the default is `[*]`
