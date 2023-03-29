@@ -1,11 +1,13 @@
+query:
+  max_limit: 50000
+  default_limit: 1000
+
 refine:
-  package:
-    dependencies:
-      "@mui/material": "^5.11.4"
+  importmaps:
+    - https://www.unpkg.com/@mui/material@5.11.15
   jsonforms:
     renderers:
-      rating:
-        import: "@mui/material/Rating"
+      rating: "@mui/material/Rating"
 
 openapi:
   security:
@@ -14,10 +16,10 @@ openapi:
         - scope1
         - scope2
   info:
-    description: jinjat example project
+    description: jinjat example project description
     contact:
       name: buremba
-      email: emrekabakci@gmail.com
+      email: owner@email.com
     license:
       name: Apache 2.0
       url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -33,9 +35,6 @@ openapi:
         type: apiKey
         in: header
         name: X-API-Key
-      OpenID:
-        type: openIdConnect
-        openIdConnectUrl: https://example.com/.well-known/openid-configuration
       OAuth2:
         type: oauth2
         flows:

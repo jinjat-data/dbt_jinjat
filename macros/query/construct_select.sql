@@ -4,17 +4,17 @@
 
 
 {% macro default__limit_query(sql, limit) -%}
-    select * from ({{sql}}) as __all_data LIMIT {{limit}}
+    select * from ({{sql}}) as data LIMIT {{limit}}
 {%- endmacro %}
 
 
 {% macro oracle__concat(sql, limit) %}
-    select * from ({{sql}}) OFFSET 0 ROWS FETCH NEXT {{limit}} ROWS ONLY;
+    select * from ({{sql}}) data OFFSET 0 ROWS FETCH NEXT {{limit}} ROWS ONLY;
 {%- endmacro %}
 
 
 {% macro generate_select(selects) -%}
-    {% if selects is defined %}
+   {% if selects is defined %}
     {% for select in selects %}
         {{quote_identifier(select)}}
     {% endfor %}

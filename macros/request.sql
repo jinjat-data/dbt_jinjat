@@ -1,4 +1,6 @@
 {% macro request(req) %}
+    {%- set req = req or {} %}
+
     {% if not this %}
         {{ exceptions.raise_compiler_error("request() macro is only available in your analyses") }}
     {% elif execute %}
@@ -8,8 +10,6 @@
         {% if not jinjat %}
             {{ exceptions.raise_compiler_error(this.identifier ~ ": analyses can't use request() macro because it doesn't have `jinjat` config") }}
         {% endif %}
-
-        {%- set req = req or {} %}
 
         {% if 'headers' not in req %}
             {% do req.update({"headers": {}}) %}
@@ -52,8 +52,11 @@
          
         {{log("Request processing for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
 
-        {{return(req)}}
+    {% else %}
+        {{print("Returning default for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
     {% endif %}
+
+    {{return(req)}}
 {% endmacro %}
 
 

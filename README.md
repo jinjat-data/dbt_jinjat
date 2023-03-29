@@ -30,6 +30,52 @@ packages:
 2. Run `dbt deps` to install the package.
 
 # Macros
+
+## Constructing queries
+
+### limit_query ([source](macros/query/construct_select.sql))
+This macro takes a SQL query as a parameter and applies LIMIT to it.
+
+#### Arguments
+* `sql` (required): The SQL query that you want to apply the limit
+* `limit` (required): The limit
+
+#### Usage:
+
+```
+$ dbt run-operation limit_query --args 'sql: "select * from customer", limit: 1000'
+
+> select * from (select * from customer) limit 1000
+```
+
+### generate_select ([source](macros/query/construct_select.sql))
+This macro generates the inner body of SELECT. It takes an array of columns and quote them. 
+
+#### Arguments
+* `selects`: An array of columns to quote, the default is `[*]`
+
+#### Usage:
+
+```
+$ dbt run-operation generate_select --args 'selects: [col1, col2]'
+
+> "col1", "col2"
+```
+
+### generate_where ([source](macros/query/construct_select.sql))
+This macro takes an object with `and`, `or` properties and generates a boolean expression that can be used in WHERE statement
+
+#### Arguments
+* `filter`: An object that has `and` or `or` properties 
+
+#### Usage:
+
+```
+$ dbt run-operation generate_select --args 'selects: [col1, col2]'
+
+> "col1", "col2"
+```
+
 ## generate_source ([source](macros/generate_source.sql))
 This macro generates lightweight YAML for a [Source](https://docs.getdbt.com/docs/using-sources),
 which you can then paste into a schema file.
