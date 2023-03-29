@@ -1,24 +1,21 @@
 # jinjat-dbt ([dbt Docs](https://jinjat-data.github.io/dbt_jinjat/))
 
-Macros that are used by [Jinjat](https://jinjat.com) to operate. 
+Official macros provided by [Jinjat](https://jinjat.com). 
 
 # Contents
 - [jinjat-dbt](#jinjat-dbt)
 - [Contents](#contents)
 - [Installation instructions](#installation-instructions)
 - [Macros](#macros)
-  - [Constructing queries](#constructing-queries)
-    - [limit_query](#limit-query)
-    - [generate_select](#generate-select)
-    - [generate_where](#generate-where)
-    - [limit_query](#limit-query)
-  - [request (source)](#refine_app-source)
-  - [refine_app (source)](#refine_app-source)
-    - [Arguments:](#arguments-1)
-    - [Usage:](#usage-1)
-  - [ (source)](#refine_app-source)
-    - [Arguments:](#arguments-1)
-    - [Usage:](#usage-1)
+  - [`request`](#refine_app-source)
+  - [Utility](#utility-macros)
+    - [limit_query](#limit_query-source)
+    - [generate_select](#generate_select-source)
+    - [generate_where](#generate_where-source)
+    - [limit_query](#limit_query-source)
+  - [Generators](#generators)
+    - [refine_app](#refine_app-source)
+    - [metrics_query](#metrics-source)
 
 # Installation instructions
 
@@ -28,13 +25,38 @@ New to dbt packages? Read more about them [here](https://docs.getdbt.com/docs/bu
 ```yml
 packages:
   - package: jinjat-data/jinjat_dbt
-    version: X.X.X ## update to latest version here
+    version: X.X.X ## update to the latest version here
 ```
 2. Run `dbt deps` to install the package.
 
 # Macros
 
-## Constructing queries
+## `request` ([source](macros/query/core/request.sql))
+
+:::info
+Jinjat will
+:::
+
+It's the main macro for Jinjat. When you're building
+
+#### Arguments
+* `method`: The HTTP status code. Can be one of GET, POST, PUT, PATCH, DELETE and OPTION. If not defined, Jinjat will forward all the status codes to the analysis
+* `query`: A dictionary of query parameters
+* `body`: The body payload of the HTTP request
+* `headers`: A dictionary of HTTP headers
+* `params`: A dictionary of path parameters
+
+#### Usage:
+
+```
+$ dbt run-operation limit_query --args 'sql: "select * from customer", limit: 1000'
+
+> select * from (select * from customer) limit 1000
+```
+
+## Utility Macros
+
+The utility macros let you construct SELECT queries easily.
 
 ### limit_query ([source](macros/query/construct_select.sql))
 This macro takes a SQL query as a parameter and applies LIMIT to it.
@@ -74,10 +96,10 @@ This macro takes an object with `and`, `or` properties and generates a boolean e
 #### Usage:
 
 ```
-$ dbt run-operation generate_where --args 'filter: {or: []}'
+$ dbt run-operation generate_where --args 'filter: {and: [{field: 'customer_type', operator: 'equals', value: 'premium'}, {or: [{field: 'country', operator: 'equals', value: 'USA'}, {field: 'gender', operator: 'equals', value: 'male'}]}]}'
 
-> 
-```
+> customer_type = 'premium' AND (country = 'USA' OR gender = 'male')
+``` 
 
 ### quote_identifier ([source](macros/query/quote.sql))
 Quotes table and column identifiers.
@@ -87,7 +109,13 @@ Quotes table and column identifiers.
 
 
 ### quote_literal ([source](macros/query/quote.sql))
-Quotes string and number literals
+Quotes string and number literals.
 
 #### Arguments
 * `value`: The identifier to quote. col1, table_ref, etc.
+
+
+## Generators
+
+### refine_app ([source](macros/generator/refine_app/refine_app.sql))
+### metrics_query ([source](macros/generator/metrics/metrics_query.sql))

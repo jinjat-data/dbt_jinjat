@@ -17,13 +17,13 @@ macros:
       - name: selects
         type: <array[string]>
         description: An array of columns to quote, the default is `[*]`
-  - name: generate_select
+  - name: generate_where
     docs:
       show: true
     arguments:
-      - name: selects
-        type: <array[string]>
-        description: An array of columns to quote, the default is `[*]`
+      - name: value
+        type: <dictionary>
+        description: A nested dictionary 
   - name: quote_identifier
     docs:
       show: true

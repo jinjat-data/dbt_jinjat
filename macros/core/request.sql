@@ -1,5 +1,5 @@
-{% macro request(req) %}
-    {%- set req = req or {} %}
+{% macro request(method = None, query = {}, body = {}, headers = {}, params = {}) %}
+    {%- set req = {"method": method, "body": body, "headers": headers or {}, "params": params or {}, "query": query_params or {}} %}
 
     {% if not this %}
         {{ exceptions.raise_compiler_error("request() macro is only available in your analyses") }}
@@ -9,16 +9,6 @@
 
         {% if not jinjat %}
             {{ exceptions.raise_compiler_error(this.identifier ~ ": analyses can't use request() macro because it doesn't have `jinjat` config") }}
-        {% endif %}
-
-        {% if 'headers' not in req %}
-            {% do req.update({"headers": {}}) %}
-        {% endif %}
-        {% if 'query' not in req %}
-            {% do req.update({"query": {}}) %}
-        {% endif %}
-        {% if 'params' not in req %}
-            {% do req.update({"params": {}}) %}
         {% endif %}
 
     

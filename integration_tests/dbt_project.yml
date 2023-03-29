@@ -13,3 +13,8 @@ target-path: "target"
 clean-targets:         
   - "target"
   - "dbt_packages"
+
+models:
+  dbt_jinjat_tests:
+      +tags: 
+        - "hello"
