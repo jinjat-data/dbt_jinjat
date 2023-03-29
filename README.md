@@ -22,11 +22,13 @@ Official macros provided by [Jinjat](https://jinjat.com).
 New to dbt packages? Read more about them [here](https://docs.getdbt.com/docs/building-a-dbt-project/package-management/).
 
 1. Include this package in your `packages.yml` file — check [here](https://hub.getdbt.com/jinjat-data/jinjat_dbt/latest/) for the latest version number:
+
 ```yml
 packages:
-  - package: jinjat-data/jinjat_dbt
-    version: X.X.X ## update to the latest version here
+  - git: https://github.com/jinjat-data/dbt_jinjat
+    version: 0.2
 ```
+
 2. Run `dbt deps` to install the package.
 
 # Macros
