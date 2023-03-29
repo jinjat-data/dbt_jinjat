@@ -6,14 +6,31 @@ macros:
     docs:
       show: false
     arguments:
-      - name: selects
-        type: <array[string]>
-        description: An array of columns to quote, the default is `[*]`
+      - name: type
+      - name: package_name_or_identifier
+      - name: identifier
+  - name: _generate_sample_from_json_schema
+    docs:
+      show: false
+    arguments:
+      - name: json_schema
   - name: request
     description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
     docs:
       show: true
     arguments:
-      - name: selects
-        type: <array[string]>
-        description: An array of columns to quote, the default is `[*]`
+      - name: method
+        type: string
+        description: The HTTP status code. Can be one of GET, POST, PUT, PATCH, DELETE and OPTIONS. If not defined, Jinjat will forward all the status codes to the analysis.
+      - name: query
+        type: object
+        description: A dictionary of query parameters
+      - name: body
+        type: any
+        description: The body payload of the HTTP request
+      - name: headers
+        type: object
+        description: A dictionary of HTTP headers
+      - name: params
+        type: object
+        description: A dictionary of path parameters

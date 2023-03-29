@@ -10,9 +10,9 @@
     ) }}
 {% endmacro %}
 
-{% macro metrics_single_query(metric_name) %}
+{% macro metrics_single_query(metric_name, out) %}
     {% set files = {
-            "analyses/metrics/_query.sql": generate_metrics_query(metric_name)
+            out or "": generate_metrics_query(metric_name)
        }
     %}
 

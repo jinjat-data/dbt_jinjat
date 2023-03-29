@@ -33,14 +33,12 @@ packages:
 
 ## `request` ([source](macros/query/core/request.sql))
 
-:::info
-Jinjat will
-:::
+It's the HTTP routing macro for Jinjat that you use in [analyses files](https://docs.getdbt.com/docs/build/analyses). The arguments that you will pass to the macro will be used by dbt to compile your analysis files. If you have the [definition the OpenAPI spec](/reference/openapi#dbt-analysis) for your analysis files, Jinjat automatically generates the test values for you.
 
-It's the main macro for Jinjat. When you're building
+> While the following arguments are optional, you need to use them to make sure dbt compiles. Therefore; you at least need to define OpenAPI spec (recommended) or pass values that make dbt compile.
 
 #### Arguments
-* `method`: The HTTP status code. Can be one of GET, POST, PUT, PATCH, DELETE and OPTION. If not defined, Jinjat will forward all the status codes to the analysis
+* `method`: The HTTP status code. Can be one of GET, POST, PUT, PATCH, DELETE and OPTIONS. If not defined, Jinjat will forward all the status codes to the analysis
 * `query`: A dictionary of query parameters
 * `body`: The body payload of the HTTP request
 * `headers`: A dictionary of HTTP headers
@@ -48,11 +46,40 @@ It's the main macro for Jinjat. When you're building
 
 #### Usage:
 
-```
-$ dbt run-operation limit_query --args 'sql: "select * from customer", limit: 1000'
+Let's say you have `./analyses/example_endpoint.sql` file as follows:
 
-> select * from (select * from customer) limit 1000
+```sql
+{%- set query_params = request(query={"status": "shipped"}).query %}
+
+select  order_date, 
+        count(*) as orders, 
+        count(distinct customer_id) as users
+from {{ ref('orders') }} 
+group by order_date
+where status = '{{query_params.status}}'
 ```
+
+Let's compile your analysis:
+
+```bash
+$ dbt compile
+
+```
+
+Now, let's look at the `target/analyses/example_endpoint.sql`. We should see something similar to:
+
+```sql
+select  order_date, 
+        count(*) as orders, 
+        count(distinct customer_id) as users
+from orders
+group by order_date
+where status = 'shipped'
+```
+
+> Jinjat will patch this macro when you start Jinjat with `jinjat serve` to return the user HTTP request data instead of the parameters that you pass as arguments.
+
+---
 
 ## Utility Macros
 
@@ -114,8 +141,36 @@ Quotes string and number literals.
 #### Arguments
 * `value`: The identifier to quote. col1, table_ref, etc.
 
+---
 
 ## Generators
 
 ### refine_app ([source](macros/generator/refine_app/refine_app.sql))
+
+
+
+```
+$ jinjat generate refine_app --args 'to: ref("customers")'
+
+                               
+└── analyses
+    └── crud
+        ├── _list_customers.sql ✔️
+        ├── _id
+        │   └── _get_customers.sql ✔️
+        └── schema.yml ✔️
+3 files will be created. Type enter to continue >
+``` 
+
 ### metrics_query ([source](macros/generator/metrics/metrics_query.sql))
+
+```
+$ jinjat generate metrics_query --args 'metric_name: revenue'
+
+                               
+└── analyses
+    └── metrics
+        ├── revenue.sql ✔️
+        └── schema.yml ✔️
+2 files will be created. Type enter to continue >
+``` 

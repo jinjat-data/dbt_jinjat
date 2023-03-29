@@ -1,0 +1,11 @@
+version: 2
+
+macros:
+  - name: refine_app
+    description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
+    docs:
+      show: true
+    arguments:
+      - name: to
+        type: string
+        description: dbt's ref('model') or source('source', "table")

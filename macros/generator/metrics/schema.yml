@@ -1,0 +1,14 @@
+version: 2
+
+macros:
+  - name: metrics_query
+    description: This macro generates an analysis in given path
+    docs:
+      show: true
+    arguments:
+      - name: metric_name
+        type: string
+        description: Metric name to query
+      - name: out
+        type: string
+        description: The path to write the analysis. the default is "analyses/metrics/[metric_name].sql"

@@ -14,9 +14,10 @@ macros:
     docs:
       show: true
     arguments:
-      - name: selects
-        type: <array[string]>
-        description: An array of columns to quote, the default is `[*]`
+      - name: sql
+        type: string
+      - name: limit
+        type: number
   - name: generate_where
     docs:
       show: true
