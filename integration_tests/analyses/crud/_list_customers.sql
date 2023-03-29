@@ -9,7 +9,7 @@ SELECT
 FROM
 {{ ref('customers') }}
 
-{% if query.filter is defined %}
+{% if query.filter is defined %} 
 WHERE
     {{ jinjat.generate_where(filter) }}
 {% endif %}
