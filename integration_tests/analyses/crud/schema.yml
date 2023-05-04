@@ -55,9 +55,7 @@ analyses:
     config:
       jinjat:
         method: get
-        transform:
-          response:
-            - jmespath: $[0]
+        transform_response: "[0]"
         openapi:
           responses:
             200:

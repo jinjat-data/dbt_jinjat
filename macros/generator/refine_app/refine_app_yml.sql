@@ -1,4 +1,4 @@
-{% macro generate_refine_jinjat_app_yml(to_resource, is_read_only) %}
+{% macro _generate_refine_jinjat_app_yml(to_resource, is_read_only) %}
 version: 2
 
 exposures:

@@ -1,6 +1,24 @@
 version: 2
 
 macros:
+  - name: _generate_jinjat_refine_app_get
+    docs:
+      show: false
+  - name: _generate_jinjat_refine_app_create
+    docs:
+      show: false
+  - name: _generate_jinjat_refine_app_list
+    docs:
+      show: false
+  - name: _generate_jinjat_refine_app_delete
+    docs:
+      show: false
+  - name: _generate_jinjat_refine_app_patch
+    docs:
+      show: false
+  - name: _generate_refine_jinjat_app_yml
+    docs:
+      show: false
   - name: refine_app
     description: This macro generates the inner body of SELECT. It takes an array of columns and quotes them.
     docs:
@@ -9,3 +27,9 @@ macros:
       - name: to
         type: string
         description: dbt's ref('model') or source('source', "table")
+      - name: name
+        type: string
+        description: file model name
+      - name: out_dir
+        type: string
+        description: The directory to write the analyses files. the default is "analyses/[name]/"

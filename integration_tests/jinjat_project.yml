@@ -1,3 +1,7 @@
+cors:
+  allowed_origins:
+    - "http://127.0.0.1:3000"
+
 query:
   max_limit: 50000
   default_limit: 1000

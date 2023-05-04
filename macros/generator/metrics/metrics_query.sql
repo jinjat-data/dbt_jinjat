@@ -1,4 +1,4 @@
-{% macro generate_metrics_query(metric_name) %}
+{% macro _generate_metrics_query(metric_name) %}
     {%- set req = request({"params": {"metric": "revenue"}}) %}
     {%- set query_params = req.query %}
 
@@ -10,9 +10,9 @@
     ) }}
 {% endmacro %}
 
-{% macro metrics_single_query(metric_name, out) %}
+{% macro metrics_query(metric_name, out) %}
     {% set files = {
-            out or "": generate_metrics_query(metric_name)
+            out or "": _generate_metrics_query(metric_name)
        }
     %}
 

@@ -1,6 +1,9 @@
 version: 2
 
 macros:
+  - name: _generate_metrics_query
+    docs:
+      show: false
   - name: metrics_query
     description: This macro generates an analysis in given path
     docs:

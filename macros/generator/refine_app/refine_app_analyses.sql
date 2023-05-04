@@ -1,9 +1,9 @@
-{% macro generate_jinjat_refine_app_list(to_resource) %}
+{% macro _generate_jinjat_refine_app_list(to_resource) %}
 
 {% endmacro %}
 
 
-{% macro generate_jinjat_refine_app_create(to_resource) %}
+{% macro _generate_jinjat_refine_app_create(to_resource) %}
 {% raw %}
 {%- set payload = jinjat.request().body %}
 INSERT INTO
@@ -21,11 +21,11 @@ VALUES
 {% endraw %}
 {% endmacro %}
 
-{% macro generate_jinjat_refine_app_delete(to_resource) %}
+{% macro _generate_jinjat_refine_app_delete(to_resource) %}
 {% endmacro %}
 
-{% macro generate_jinjat_refine_app_patch(to_resource) %}
+{% macro _generate_jinjat_refine_app_patch(to_resource) %}
 {% endmacro %}
 
-{% macro generate_jinjat_refine_app_get(to_resource) %}
+{% macro _generate_jinjat_refine_app_get(to_resource) %}
 {% endmacro %}

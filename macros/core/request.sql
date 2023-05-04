@@ -1,49 +1,56 @@
 {% macro request(method = None, query = {}, body = {}, headers = {}, params = {}) %}
     {%- set req = {"method": method, "body": body, "headers": headers or {}, "params": params or {}, "query": query_params or {}} %}
-
     {% if not this %}
         {{ exceptions.raise_compiler_error("request() macro is only available in your analyses") }}
     {% elif execute %}
-        {% set analyses_ref_node = graph.nodes.values() | selectattr('name', 'equalto', this.identifier) | first %}
-        {% set jinjat = analyses_ref_node.config.jinjat %}
+        {% set analyses_ref_nodes = graph.nodes.values() | selectattr('name', 'equalto', this.identifier) | list %}
+        {% if analyses_ref_nodes|length == 0 %}
+            {% if jinjat_request is defined %}
+                {% do req.update(jinjat_request) %}
+            {% endif %}
+        {% else %}
+            {% set analyses_ref_node = analyses_ref_nodes|first %}
+            {% set jinjat = analyses_ref_node.config.jinjat %}
 
-        {% if not jinjat %}
-            {{ exceptions.raise_compiler_error(this.identifier ~ ": analyses can't use request() macro because it doesn't have `jinjat` config") }}
-        {% endif %}
+            {{print(analyses_ref_node.config)}}
+              
+            {% if not jinjat %}
+                {{ exceptions.raise_compiler_error(this.identifier ~ ": analysis can't use request() macro because it doesn't have `jinjat` config") }}
+            {% endif %}
 
-    
-        {% if 'body' not in req %}
-          {%- set request_body = jinjat.openapi.requestBody.content['application/json'].schema
-            if "openapi" in jinjat 
-            and "requestBody" in jinjat.openapi 
-            and "content" in jinjat.openapi.requestBody 
-            and "application/json" in jinjat.openapi.requestBody.content 
-            and "schema" in jinjat.openapi.requestBody.content['application/json'] else {} %}
+        
+            {% if 'body' not in req %}
+            {%- set request_body = jinjat.openapi.requestBody.content['application/json'].schema
+                if "openapi" in jinjat 
+                and "requestBody" in jinjat.openapi 
+                and "content" in jinjat.openapi.requestBody 
+                and "application/json" in jinjat.openapi.requestBody.content 
+                and "schema" in jinjat.openapi.requestBody.content['application/json'] else {} %}
 
-            {% if request_body['$ref'] and request_body['$ref'].startswith('#/components/schemas/') %}
-                {% set identifier = request_body['$ref'][21:] %}
+                {% if request_body['$ref'] and request_body['$ref'].startswith('#/components/schemas/') %}
+                    {% set identifier = request_body['$ref'][21:] %}
 
-                {% set ref_node = graph.nodes[identifier] %}
+                    {% set ref_node = graph.nodes[identifier] %}
 
-                {%- set example = {} %}
-                {% for name, column in ref_node.columns.items() %}
-                    {% do example.update({name: column.name}) %}
-                {% endfor %}
-                               
-                {% do req.update({"body": example}) %}
-            {% elif request_body.type %}
-                {% do req.update({"body": _generate_sample_from_json_schema(request_body)}) %}
-            {% else %}
-                {% if jinjat.method in ['post', 'put', 'patch'] %}
-                    {{ exceptions.raise_compiler_error(this.identifier ~ ": Unable to create an example value which is required for `" ~ jinjat.method ~ "` method") }}
+                    {%- set example = {} %}
+                    {% for name, column in ref_node.columns.items() %}
+                        {% do example.update({name: column.name}) %}
+                    {% endfor %}
+                                
+                    {% do req.update({"body": example}) %}
+                {% elif request_body.type %}
+                    {% do req.update({"body": _generate_sample_from_json_schema(request_body)}) %}
+                {% else %}
+                    {% if jinjat.method in ['post', 'put', 'patch'] %}
+                        {{ exceptions.raise_compiler_error(this.identifier ~ ": Unable to create an example value which is required for `" ~ jinjat.method ~ "` method") }}
+                    {% endif %}
                 {% endif %}
             {% endif %}
+            
+            {{log("Request processing for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
         {% endif %}
-         
-        {{log("Request processing for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
-
     {% else %}
-        {{print("Returning default for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
+        {{log("Returning default for `" ~ this.identifier ~ "`: " ~  tojson(req))}}
     {% endif %}
 
     {{return(req)}}
