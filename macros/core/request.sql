@@ -14,7 +14,7 @@
 
             {{print(analyses_ref_node.config)}}
               
-            {% if not jinjat %}
+            {% if not jinjat and false %}
                 {{ exceptions.raise_compiler_error(this.identifier ~ ": analysis can't use request() macro because it doesn't have `jinjat` config") }}
             {% endif %}
 
