@@ -73,7 +73,6 @@
             "items": {
                 "type": "object",
                 "required": [
-                    "depends_on",
                     "name",
                     "owner",
                     "type"

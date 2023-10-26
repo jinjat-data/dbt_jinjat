@@ -1,4 +1,4 @@
-{%- set request = jinjat.request({"query": {"sorting": [{"field": "1", "asc": true}]}}) %}
+{%- set request = jinjat.request() %}
 
 {%- set query = request.query %}
 
@@ -9,17 +9,17 @@ SELECT
 FROM
 {{ ref('customers') }}
 
-{% if query.filter is defined %} 
+{% if query.filters is defined %} 
 WHERE
-    {{ jinjat.generate_where(filter) }}
+    {{ jinjat.generate_where(filters) }}
 {% endif %}
 
-{% if query.sorting is defined %}
+{% if query.sorters is defined %}
 ORDER BY
-    {% for sorting in query.sorting %}
+    {% for sorting in query.sorters %}
             {{ jinjat.quote_identifier(sorting.field) }}
 
-            {% if sorting.asc %}
+            {% if sorting.order %}
                 ASC
             {% else %}
                 DESC

@@ -15,3 +15,7 @@
     {{return(node.config.meta.jinjat)}}
  {% endif %}
 {% endmacro %}
+
+{% macro get_row_count_query(sql) %}
+    SELECT COUNT(1) as count FROM ({{sql}})
+{% endmacro %}

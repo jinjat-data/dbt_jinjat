@@ -1,0 +1,33 @@
+export const global = createState({ count: 0 });
+
+## Counter
+
+<Card>
+  <CardContent>
+    <Observe state={global}>
+      {({ count }) => 
+        <div>
+          <p>The counter currently has a value of {count}.</p>
+          <Slider value={count} onChange={(evt, newValue) => global.count = newValue} />
+        </div>
+      }
+    </Observe>
+  </CardContent>
+</Card>
+
+```js
+ export const example_sql = executeQuery('select 1');
+```
+
+<Grid container spacing={4} columns={16}>
+  <Grid xs={8} justifyContent="center" alignItems="center">
+    <Paper>
+      <ECharts dataset={{analysis: 'example_endpoint'}} options={{series: {type: 'bar'}}} />
+    </Paper>
+  </Grid>
+  <Grid xs={8} justifyContent="center" alignItems="center">
+    <Paper>
+      <ECharts dataset={{analysis: 'example_endpoint'}} options={{series: {type: 'bar'}}} />
+    </Paper>
+  </Grid>
+</Grid>

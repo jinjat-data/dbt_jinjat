@@ -6,16 +6,7 @@ analyses:
     config:
       jinjat:
         method: get
-        openapi:
-          responses:
-            200:
-              description: OK
-              content:
-                application/json:
-                  schema:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/{{'model.' ~ project_name ~ '.customers'}}"
+        request:
           parameters:
             - in: query
               name: sort
@@ -38,36 +29,38 @@ analyses:
               name: filter
               schema:
                 $ref: "#/components/schemas/filter"
+        response:
+          content:
+            $ref: model.customers
   - name: _create_customers
     description: Create customers
     config:
       jinjat:
         method: post
         fetch: false
-        openapi:
-          requestBody:
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/{{'model.' ~ project_name ~ '.customers'}}"
+        request:
+          body:
+            $ref: model.customers
   - name: _get_customer
     description: Get customers
     config:
       jinjat:
         method: get
-        transform_response: "[0]"
-        openapi:
-          responses:
-            200:
-              description: OK
-              content:
-                application/json:
-                  $ref: "#/components/schemas/{{'model.' ~ project_name ~ '.customers'}}"
+        response:
+          content:
+            $ref: model.customers
+          transform: "[0]"
   - name: _delete_customers
     description: Delete customers
     config:
       jinjat:
         method: delete
+        request:
+          parameters:
+            - in: query
+              name: id
+              schema:
+                type: string
         fetch: false
   - name: _patch_customers
     description: Patch customers
@@ -75,10 +68,6 @@ analyses:
       jinjat:
         method: patch
         fetch: false
-        request_body: ref("customers")
-        openapi:
-          requestBody:
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/{{'model.' ~ project_name ~ '.customers'}}"
+        request:
+          body:
+            $ref: model.customers

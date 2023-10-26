@@ -1,6 +1,6 @@
 {%- set payload = jinjat.request().body %}
 INSERT INTO
-    {{ ref('raw_customers') }}
+    {{ ref('customers') }}
     ({% for key, value in payload.items() %}
         {{ jinjat.quote_identifier(key) }}
 

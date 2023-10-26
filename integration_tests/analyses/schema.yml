@@ -1,9 +1,9 @@
 version: 2
 
 exposures:
-  - name: crud
+  - name: customer_app
     type: application
-    owner:
+    owner: &owner
       name: Burak
       email: burak@email.com
     meta:
@@ -17,73 +17,119 @@ exposures:
             list: _list_customers
             show: _get_customer
             edit: _patch_customers
-  - name: example_endpoint
+  - name: list_customers
+    type: analysis
+    meta: 
+      jinjat: 
+        analysis: _list_customers
+        refine:
+          layout: list
+    owner: *owner
+  - name: create_customers
     type: analysis
     meta:
       jinjat:
+        analysis: _create_customers
         refine:
-          button_label: Perform action
-          menu_icon: AutoAwesome
-    description: >
-      Did someone say "exponential growth"?
-    owner:
-      name: Burak
-      email: burak@email.com
+          layout: create
+    owner: *owner 
+  - name: get_customer
+    type: analysis
+    meta:
+      jinjat:
+          analysis: _get_customer
+          refine:
+            layout: show
+    owner: *owner
   - name: example_dashboard
     type: dashboard
+    owner: *owner
+    meta:
+      jinjat:
+        refine:
+          layout: dashboard
+        parameters:
+          country:
+            type: string
+        uischema:
+          type: VerticalLayout
+          elements:
+          - type: HorizontalLayout
+            elements:
+            - type: Control
+              scope: "#/properties/personalData/properties/age"
+            - type: Control
+              scope: "#/properties/personalData/properties/height"
+        items:
+          - width: 1 
+            height: 1
+            left: 2
+            top: 2
+            component: 
+              name: echarts
+              arguments:
+                dataset: 
+                  analysis: example_endpoint
+                  body: 
+                    country: US
+                  query_params: 
+                theme: custom
+                options:
+                  dataset:
+                    source: 
+                      - transform:
+                          type: sort
+                          config:
+                          - dimension: profession
+                            order: desc
+                  xAxis:
+                    type: category
+                  series:
+                    - type: pie
+  - name: example_notebook
+    type: notebook
     owner:
       name: Burak
       email: burak@email.com
     meta:
       jinjat:
         refine:
-          menu_icon: AutoAwesome
-        parameters:
-          country:
-            $ref: "#/components/schemas/{{'model.' ~ project_name ~ '.customers'}}"
-        items:
-          - width: 1
-            height: 1
-            left: 2
-            top: 2
-            data:
-              analysis: example_endpoint
-              body:
-              query_params:
-            chart:
-              echarts_config
+          layout: null
+        context:
+          test: 1
+        
 
 analyses:
   - name: example_endpoint
-    description: Example endpoint to demonstrate Jinjat
+    description: Example list to demonstrate Jinjat
     config:
       jinjat:
         method: get
         openapi:
-#          responses:
-#            200:
-#              description: OK
-#              content:
-#                application/json:
-#                  schema:
-#                    type: array
-#                    items:
-#                      type: object
-#                      properties:
-#                        test:
-#                          type: integer
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        test:
+                          type: integer
           parameters:
             - in: query
               name: number
               schema:
                 type: number
                 default: 1
-#          requestBody:
-#            content:
-#              application/json:
-#                schema:
-#                  type: object
-#                  properties:
-#                    number:
-#                      type: number
-#                      default: 1
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    number:
+                      type: number
+                      default: 1

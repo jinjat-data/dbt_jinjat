@@ -1,5 +1,5 @@
 {% macro request(method = None, query = {}, body = {}, headers = {}, params = {}) %}
-    {%- set req = {"method": method, "body": body, "headers": headers or {}, "params": params or {}, "query": query_params or {}} %}
+    {%- set req = {"method": method, "body": body, "headers": headers or {}, "params": params or {}, "query": query or {}} %}
     {% if not this %}
         {{ exceptions.raise_compiler_error("request() macro is only available in your analyses") }}
     {% elif execute %}

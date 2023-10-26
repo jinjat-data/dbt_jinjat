@@ -1,6 +1,7 @@
 cors:
   allowed_origins:
-    - "http://127.0.0.1:3000"
+    - "http://127.0.0.1:3001"
+    - "http:/localhost:3001"
 
 query:
   max_limit: 50000
@@ -8,10 +9,26 @@ query:
 
 refine:
   importmaps:
-    - https://www.unpkg.com/@mui/material@5.11.15
+    - https://www.unpkg.com/@mui/material@5.11.15 
   jsonforms:
     renderers:
       rating: "@mui/material/Rating"
+      echarts: "@jinjat/echarts"
+  echarts:
+    themes:
+      custom:
+        color:
+          - "#d87c7c"
+          - "#919e8b"
+          - "#d7ab82"
+          - "#6e7074"
+          - "#61a0a8"
+          - "#efa18d"
+          - "#787464"
+          - "#cc7e63"
+          - "#724e58"
+          - "#4b565b"
+        backgroundColor: rgba(254,248,239,1)
 
 openapi:
   security:
