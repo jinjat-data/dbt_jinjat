@@ -1,0 +1,25 @@
+name: dbt_jinjat_integration_tests
+runtime: yaml
+
+resources:
+  jinjat_docker_repo:
+    type: gcp:artifactregistry:Repository
+    properties:
+      description: example docker repository
+      format: DOCKER
+      location: us-central1
+      project: jinjat-demo
+      repositoryId: jinjat-repository
+  image:
+    type: docker:Image
+    options:
+      version: v4.0.0
+    properties:
+      build:
+          context: .
+          dockerfile: test.Dockerfile
+      imageName: "us-central1-docker.pkg.dev/jinjat-demo/jinjat-repository/dbt_jinjat_integration_tests:latest"
+
+outputs:
+  jinjat_docker_repo: ${jinjat_docker_repo}
+  image: ${image}
