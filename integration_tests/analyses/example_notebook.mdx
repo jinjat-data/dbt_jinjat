@@ -27,7 +27,12 @@ export const global = createState({ count: 0 });
   </Grid>
   <Grid xs={8} justifyContent="center" alignItems="center">
     <Paper>
-      <ECharts dataset={{analysis: 'example_endpoint'}} options={{series: {type: 'bar'}}} />
+      <LineChart dataset={{analysis: 'example_endpoint'}} x={'test'}/>
+    </Paper>
+  </Grid>
+  <Grid xs={8} justifyContent="center" alignItems="center">
+    <Paper>
+      <KPI dataset={{analysis: 'example_endpoint'}}/>
     </Paper>
   </Grid>
 </Grid>
