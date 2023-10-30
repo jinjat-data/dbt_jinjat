@@ -15,6 +15,7 @@ jobs:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
+      - run: gcloud auth configure-docker us-central1-docker.pkg.dev
       - uses: pulumi/actions@v3
         with:
           command: up
