@@ -1,6 +1,16 @@
 name: dbt_jinjat_integration_tests
 runtime: yaml
 
+variables:
+  noauthIAMPolicy:
+    fn::invoke:
+      function: gcp:organizations:getIAMPolicy
+      arguments:
+        bindings:
+          - role: roles/run.invoker
+            members:
+              - allUsers
+
 resources:
   jinjat_docker_repo:
     type: gcp:artifactregistry:Repository
@@ -38,6 +48,13 @@ resources:
               - name: HOME
                 value: /root
         sessionAffinity: true
+  noauthIamPolicy:
+    type: gcp:cloudrun:IamPolicy
+    properties:
+      location: ${service.location}
+      project: ${service.project}
+      service: ${service.name}
+      policyData: ${noauthIAMPolicy.policyData}
 
 outputs:
   jinjat_docker_repo: ${jinjat_docker_repo}
