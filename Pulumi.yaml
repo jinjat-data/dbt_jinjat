@@ -16,10 +16,27 @@ resources:
       version: v4.0.0
     properties:
       build:
+          args:
+            platform: linux/amd64
           context: .
           dockerfile: test.Dockerfile
       imageName: "us-central1-docker.pkg.dev/jinjat-demo/jinjat-repository/dbt_jinjat_integration_tests:latest"
+  service:
+    type: gcp:cloudrun:Service
+    properties:
+      location: us-central1
+      template:
+        spec:
+          containers:
+            - image: ${image.baseImageName}
+              name: jinjat-server
+              ports:
+                - containerPort: 8581
+      traffics:
+        - percent: 100
+          latestRevision: true
 
 outputs:
   jinjat_docker_repo: ${jinjat_docker_repo}
   image: ${image}
+  service: ${service}

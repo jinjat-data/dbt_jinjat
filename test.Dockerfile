@@ -1,4 +1,4 @@
-FROM jinjat/jinjat:latest
+FROM --platform=linux/amd64 jinjat/jinjat:latest
 
 RUN apt update -qq && \
     apt install -y build-essential curl git wget gcc
@@ -9,7 +9,8 @@ COPY ./ /project
 
 ENV DBT_PROJECT_DIR=/project/integration_tests
 ENV DBT_PROFILES_DIR=/project/integration_tests
+ENV DUCKDB_DATABASE_PATH=/project/integration_tests/duckdb.db
 
-RUN ls ./ && poetry run dbt deps && poetry run dbt seed && poetry run dbt run
+RUN poetry run dbt deps && poetry run dbt seed && poetry run dbt run
 
 ENTRYPOINT ["poetry", "run", "jinjat", "serve"]
