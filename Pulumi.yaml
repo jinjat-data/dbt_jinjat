@@ -19,22 +19,25 @@ resources:
           args:
             platform: linux/amd64
           context: .
+          platform: "linux/amd64"
           dockerfile: test.Dockerfile
       imageName: "us-central1-docker.pkg.dev/jinjat-demo/jinjat-repository/dbt_jinjat_integration_tests:latest"
   service:
-    type: gcp:cloudrun:Service
+    type: gcp:cloudrunv2:Service
     properties:
+      ingress: INGRESS_TRAFFIC_ALL
       location: us-central1
+      name: dbt_jinjat_integration_tests
       template:
-        spec:
-          containers:
-            - image: ${image.baseImageName}
-              name: jinjat-server
-              ports:
-                - containerPort: 8581
-      traffics:
-        - percent: 100
-          latestRevision: true
+        containers:
+          - image: ${image.baseImageName}
+            name: jinjat-server
+            ports:
+              - containerPort: 8581
+            envs:
+              - name: HOME
+                value: /root
+        sessionAffinity: true
 
 outputs:
   jinjat_docker_repo: ${jinjat_docker_repo}

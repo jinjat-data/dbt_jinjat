@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 jinjat/jinjat:latest
+FROM jinjat/jinjat:latest
 
 RUN apt update -qq && \
     apt install -y build-essential curl git wget gcc
