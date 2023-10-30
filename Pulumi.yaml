@@ -27,7 +27,7 @@ resources:
     properties:
       ingress: INGRESS_TRAFFIC_ALL
       location: us-central1
-      name: dbt_jinjat_integration_tests
+      name: dbtjinjatintegrationtests
       template:
         containers:
           - image: ${image.baseImageName}
