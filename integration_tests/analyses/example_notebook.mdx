@@ -1,23 +1,13 @@
-export const global = createState({ count: 0 });
-
 ## Counter
 
 <Card>
   <CardContent>
-    <Observe state={global}>
-      {({ count }) => 
-        <div>
-          <p>The counter currently has a value of {count}.</p>
-          <Slider value={count} onChange={(evt, newValue) => global.count = newValue} />
-        </div>
-      }
-    </Observe>
+        The counter currently has a value of <Text value={count}></Text>.
+        <Slider value={count} />
   </CardContent>
 </Card>
 
-```js
- export const example_sql = executeQuery('select 1');
-```
+# Some metrics
 
 <Grid container spacing={4} columns={16}>
   <Grid xs={8} justifyContent="center" alignItems="center">
@@ -33,6 +23,9 @@ export const global = createState({ count: 0 });
   <Grid xs={8} justifyContent="center" alignItems="center">
     <Paper>
       <KPI dataset={{analysis: 'example_endpoint'}}/>
+    </Paper>
+    <Paper>
+      <Iframe src="https://dashboard.grafana.com/3423"/>
     </Paper>
   </Grid>
 </Grid>

@@ -21,7 +21,7 @@ exposures:
     type: analysis
     meta: 
       jinjat: 
-        analysis: _list_customers
+        analysis: analysis._list_customers
         refine:
           layout: list
     owner: *owner
@@ -107,6 +107,14 @@ exposures:
           layout: null
         context:
           test: 1
+  - name: sales_dashboard_exposure
+    type: dashboard
+    depends_on: []
+    owner:
+      name: Burak
+      email: burak@email.com
+    description: Monthly sales dashboard used by the executive team.
+    url: https://looker.company.com/dashboards/123
         
 
 analyses:

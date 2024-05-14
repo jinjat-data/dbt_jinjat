@@ -13,13 +13,13 @@
 {%- endmacro %}
 
 
-{% macro generate_select(selects) -%}
+{% macro generate_select(selects, default_value = '*') -%}
    {% if selects is defined %}
     {% for select in selects %}
         {{quote_identifier(select)}}
     {% endfor %}
    {% else %}
-    *
+      {{default_value}}
    {% endif %}
 {%- endmacro %}
 

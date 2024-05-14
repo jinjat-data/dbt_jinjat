@@ -31,6 +31,7 @@ resources:
           context: .
           platform: "linux/amd64"
           dockerfile: test.Dockerfile
+      # it's buggy, use sha instead of latest
       imageName: "us-central1-docker.pkg.dev/jinjat-demo/jinjat-repository/dbt_jinjat_integration_tests:latest"
   service:
     type: gcp:cloudrunv2:Service

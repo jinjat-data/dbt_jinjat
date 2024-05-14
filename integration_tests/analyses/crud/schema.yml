@@ -28,7 +28,8 @@ analyses:
             - in: query
               name: filter
               schema:
-                $ref: "#/components/schemas/filter"
+                type: string
+                # $ref: "#/components/schemas/filter"
         response:
           content:
             $ref: model.customers

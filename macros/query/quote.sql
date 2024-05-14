@@ -4,7 +4,12 @@
 {% endmacro %}
 
 {% macro default__quote_identifier(identifier) %}
-    {% set quoted_identifier = '"' + identifier + '"' %}
+     {% if value is not defined %}
+         {% set quoted_identifier = '"IDENTIFIER"' %}
+     {% else %}
+        {% set quoted_identifier = '"' + identifier + '"' %}
+     {% endif %}
+    
     {{ return(quoted_identifier) }}
 {% endmacro %}
 

@@ -57,7 +57,8 @@ analyses:
             - in: query
               name: filter
               schema:
-                $ref: "#/components/schemas/filter"
+                type: string
+                -- $ref: "#/components/schemas/filter"
   - name: _create_customers
     description: Create customers
     config:

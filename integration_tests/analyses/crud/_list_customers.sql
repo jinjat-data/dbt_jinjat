@@ -14,9 +14,9 @@ WHERE
     {{ jinjat.generate_where(filters) }}
 {% endif %}
 
-{% if query.sorters is defined %}
+{% if query.sort is defined %}
 ORDER BY
-    {% for sorting in query.sorters %}
+    {% for sorting in query.sort %}
             {{ jinjat.quote_identifier(sorting.field) }}
 
             {% if sorting.order %}
