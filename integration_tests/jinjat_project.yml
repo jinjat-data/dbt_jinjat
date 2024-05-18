@@ -94,7 +94,7 @@ openapi:
         items:
           oneOf:
             - "$ref": "#/components/schemas/filter"
-            - "$ref": "#/components/schemas/filterExpression"
+            # - "$ref": "#/components/schemas/filterExpression"
       filterExpression:
         type: object
         description:
