@@ -11,6 +11,6 @@ ENV DBT_PROJECT_DIR=/project/integration_tests
 ENV DBT_PROFILES_DIR=/project/integration_tests
 ENV DUCKDB_DATABASE_PATH=/project/integration_tests/duckdb.db
 
-RUN poetry run dbt deps && poetry run dbt seed && poetry run dbt compile
+RUN poetry run dbt deps && poetry run dbt compile
 
 ENTRYPOINT ["poetry", "run", "jinjat", "serve"]
