@@ -108,6 +108,8 @@ VALUES
 {% macro _generate_jinjat_refine_app_patch(to_resource) %}
 {% endmacro %}
 
+-- GET
+
 {% macro _generate_jinjat_refine_app_get(to_resource) %}
 {% raw %}
 {%- set request = jinjat.request() %}
